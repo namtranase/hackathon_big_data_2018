@@ -1,0 +1,250 @@
+
+```{r}
+data = read.csv("data.csv")
+
+```
+
+```{r}
+hist(data[data$churn==1,]$customer_age, col=rgb(1,0,0,0.5) , xlab="age" , ylab="frequency" , main="" )
+hist(data[data$churn==0,]$customer_age, col=rgb(0,0,1,0.5) , xlab="age" , ylab="frequency" , main="", add=T)
+legend("topright", legend=c("Churn", "Non-churn"), col=c(rgb(1,0,0,0.5), rgb(0,0,1,0.5)), pt.cex=2, pch=15 )
+```
+```{r}
+library(dplyr)
+total = subset(
+data,
+select = c(
+"ID",
+"sum_total_use_charge_tn"  ,
+"sum_total_use_charge_tn_1"  ,
+"sum_total_use_charge_tn_2"  ,
+"sum_total_use_charge_tn_3"  ,
+"sum_total_use_charge_tn_4"  ,
+"sum_total_use_charge_tn_5",
+"sum_total_A.s_tn"         ,
+"sum_total_A.s_tn_1"     ,
+"sum_total_A.s_tn_2"        ,
+"sum_total_A.s_tn_3"  ,
+"sum_total_A.s_tn_4"        ,
+"sum_total_A.s_tn_5"     ,
+"sum_free_service_fee_tn"   ,
+"sum_free_service_fee_tn_1"  ,
+"sum_free_service_fee_tn_2" ,
+"sum_free_service_fee_tn_3"  ,
+"sum_free_service_fee_tn_4" ,
+"sum_free_service_fee_tn_5" ,
+"customer_age" ,
+"churn"
+)
+)
+a = subset(
+data,
+select = c(
+"ID" ,
+"sum_t_A._times_tn" ,
+"sum_t_A._times_tn_1" ,
+"sum_t_A._times_tn_2" ,
+"sum_t_A._times_tn_3" ,
+"sum_t_A._times_tn_4",
+"sum_t_A._times_tn_5" ,
+"sum_total_use_A.s_tn" ,
+"sum_total_use_A.s_tn_1" ,
+"sum_total_use_A.s_tn_2" ,
+"sum_total_use_A.s_tn_3" ,
+"sum_total_use_A.s_tn_4" ,
+"sum_total_use_A.s_tn_5" ,
+"sum_t_A._duration_tn"    ,
+"sum_t_A._duration_tn_1" ,
+"sum_t_A._duration_tn_2" ,
+"sum_t_A._duration_tn_3" ,
+"sum_t_A._duration_tn_4"  ,
+"sum_t_A._duration_tn_5" ,
+"churn"
+)
+)
+b = subset(
+data,
+select = c(
+"ID",
+"sum_t_dịch.vụ.B_charge_tn" ,
+"sum_t_dịch.vụ.B_charge_tn_1",
+"sum_t_dịch.vụ.B_charge_tn_2",
+"sum_t_dịch.vụ.B_charge_tn_3",
+"sum_t_dịch.vụ.B_charge_tn_4",
+"sum_t_dịch.vụ.B_charge_tn_5",
+"sum_t_dịch.vụ.B_times_tn"  ,
+"sum_t_dịch.vụ.B_times_tn_1",
+"sum_t_dịch.vụ.B_times_tn_2" ,
+"sum_t_dịch.vụ.B_times_tn_3" ,
+"sum_t_dịch.vụ.B_times_tn_4" ,
+"sum_t_dịch.vụ.B_times_tn_5",
+"churn"
+)
+)
+c = subset(
+data,
+select = c(
+"ID",
+"sum_C_charge_tn",
+"sum_C_charge_tn_1" ,
+"sum_C_charge_tn_2" ,
+"sum_C_charge_tn_3" ,
+"sum_C_charge_tn_4",
+"sum_C_charge_tn_5",
+"sum_C_times_tn",
+"sum_C_times_tn_1" ,
+"sum_C_times_tn_2" ,
+"sum_C_times_tn_3" ,
+"sum_C_times_tn_4" ,
+"sum_C_times_tn_5"  ,
+"churn"
+)
+)
+d = subset(
+data,
+select = c(
+"ID",
+"sum_D_other_charge_tn" ,
+"sum_D_other_charge_tn_1" ,
+"sum_D_other_charge_tn_2" ,
+"sum_D_other_charge_tn_3" ,
+"sum_D_other_charge_tn_4" ,
+"sum_D_other_charge_tn_5"  ,
+"churn"
+)
+)
+e = subset(
+data,
+select = c(
+"ID",
+"sum_E.._times_tn" ,
+"sum_E.._times_tn_1" ,
+"sum_E.._times_tn_2" ,
+"sum_E.._times_tn_3" ,
+"sum_E.._times_tn_4" ,
+"sum_E.._times_tn_5" ,
+"sum_E.._duration_tn" ,
+"sum_E.._duration_tn_1" ,
+"sum_E.._duration_tn_2" ,
+"sum_E.._duration_tn_3",
+"sum_E.._duration_tn_4" ,
+"sum_E.._duration_tn_5" ,
+"sum_E._charge_tn" ,
+"sum_E._charge_tn_1"       ,
+"sum_E._charge_tn_2"  ,
+"sum_E._charge_tn_3" ,
+"sum_E._charge_tn_4" ,
+"sum_E._charge_tn_5" ,
+"churn"
+)
+)
+f = subset(
+data,
+select = c(
+"ID",
+"sum_F._times_tn"    ,
+"sum_F._times_tn_1"       ,
+"sum_F._times_tn_2" ,
+"sum_F._times_tn_3"     ,
+"sum_F._times_tn_4" ,
+"sum_F._times_tn_5"      ,
+"sum_F._charge_tn"   ,
+"sum_F._charge_tn_1"     ,
+"sum_F._charge_tn_2" ,
+"sum_F._charge_tn_3"    ,
+"sum_F._charge_tn_4"  ,
+"sum_F._charge_tn_5" ,
+"churn"
+)
+)
+g = subset(
+data,
+select = c(
+"ID",
+"sum_G.._times_tn"   ,
+"sum_G.._times_tn_1"  ,
+"sum_G.._times_tn_2"  ,
+"sum_G.._times_tn_3"       ,
+"sum_G.._times_tn_4" ,
+"sum_G.._times_tn_5"   ,
+"sum_G.._duration_tn"   ,
+"sum_G.._duration_tn_1"    ,
+"sum_G.._duration_tn_2"    ,
+"sum_G.._duration_tn_3" ,
+"sum_G.._duration_tn_4"  ,
+"sum_G.._duration_tn_5"   ,
+"sum_G._charge_tn"   ,
+"sum_G._charge_tn_1"     ,
+"sum_G._charge_tn_2"      ,
+"sum_G._charge_tn_3"     ,
+"sum_G._charge_tn_4"   ,
+"sum_G._charge_tn_5"   ,
+"churn"
+)
+)
+h = subset(
+data,
+select = c(
+"ID",
+"sum_H_times_tn"  ,
+"sum_H_times_tn_1"  ,
+"sum_H_times_tn_2"      ,
+"sum_H_times_tn_3"      ,
+"sum_H_times_tn_4"  ,
+"sum_H_times_tn_5"    ,
+"sum_H_charge_tn"      ,
+"sum_H_charge_tn_1"      ,
+"sum_H_charge_tn_2"  ,
+"sum_H_charge_tn_3"  ,
+"sum_H_charge_tn_4"     ,
+"sum_H_charge_tn_5" ,
+"churn"
+)
+)
+m = subset(
+data,
+select = c(
+"ID",
+"sum_M_volume_tn"    ,
+"sum_M_volume_tn_1"   ,
+"sum_M_volume_tn_2"  ,
+"sum_M_volume_tn_3"       ,
+"sum_M_volume_tn_4"       ,
+"sum_M_volume_tn_5"    ,
+"sum_M_times_tn"      ,
+"sum_M_times_tn_1"       ,
+"sum_M_times_tn_2"       ,
+"sum_M_times_tn_3"      ,
+"sum_M_times_tn_4"     ,
+"sum_M_times_tn_5"      ,
+"sum_M_charge_tn"       ,
+"sum_M_charge_tn_1"     ,
+"sum_M_charge_tn_2"    ,
+"sum_M_charge_tn_3"   ,
+"sum_M_charge_tn_4"   ,
+"sum_M_charge_tn_5"  ,
+"churn"
+)
+)
+
+```
+
+```{r}
+write.csv(total, file = "total.csv")
+write.csv(a, file = "A.csv")
+write.csv(b, file = "B.csv")
+write.csv(c, file = "C.csv")
+write.csv(d, file = "D.csv")
+write.csv(e, file = "E.csv")
+write.csv(f, file = "F.csv")
+write.csv(g, file = "G.csv")
+write.csv(h, file = "H.csv")
+write.csv(m, file = "M.csv")
+
+
+
+
+```
+
+
+

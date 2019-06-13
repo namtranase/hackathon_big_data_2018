@@ -1,0 +1,54 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r}
+library(dplyr)
+dataServiceH = read.csv("H.csv")
+```
+
+```{r}
+churn <- c(mean(dataServiceH[dataServiceH$churn==1,]$sum_H_times_tn_5),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_times_tn_4),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_times_tn_3),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_times_tn_2),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_times_tn_1),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_times_tn))
+non_churn <- c(mean(dataServiceH[dataServiceH$churn==0,]$sum_H_times_tn_5),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_times_tn_4),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_times_tn_3),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_times_tn_2),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_times_tn_1),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_times_tn))
+months = c("n-5", "n-4", "n-3", "n-2", "n-1", "n")
+data = data.frame(months, churn, non_churn)
+mydf = t(data[-1])
+colnames(mydf) <- data[, 1]
+barplot(mydf, beside = TRUE, main = "Sum times used service H", col=c('darkblue', 'red'))
+legend("bottomright", legend = c('churn', "non churn"), fill=c('darkblue', 'red'))
+```
+
+```{r}
+churn <- c(mean(dataServiceH[dataServiceH$churn==1,]$sum_H_charge_tn_5),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_charge_tn_4),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_charge_tn_3),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_charge_tn_2),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_charge_tn_1),
+           mean(dataServiceH[dataServiceH$churn==1,]$sum_H_charge_tn))
+non_churn <- c(mean(dataServiceH[dataServiceH$churn==0,]$sum_H_charge_tn_5),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_charge_tn_4),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_charge_tn_3),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_charge_tn_2),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_charge_tn_1),
+           mean(dataServiceH[dataServiceH$churn==0,]$sum_H_charge_tn))
+months = c("n-5", "n-4", "n-3", "n-2", "n-1", "n")
+data = data.frame(months, churn, non_churn)
+mydf = t(data[-1])
+colnames(mydf) <- data[, 1]
+barplot(mydf, beside = TRUE, main = "Sum charge used service H", col=c('darkblue', 'red'))
+legend("bottomright", legend = c('churn', "non churn"), fill=c('darkblue', 'red'))
+```
+
+
+

@@ -1,0 +1,97 @@
+  Importing the dataset
+  The feature number of this dataSmall is just 44.
+  The raw data has 152 feactures, we used PCA (package factoextra in R) to
+  calculate how top important features decide the churn or non-churn result.
+  So the top 44 features give over 95% for churn prediction
+  Then we calculated means of 152 features on each churn and non-churn set and
+  chose the features that have the big different in scope value betwwen
+  churn and non-churn group.
+  All these preprocesses we used many tools so i cant deploy them in this notebook.
+  
+```{r}
+raw_dataset = read.csv('dataSmall')
+dataset <- raw_dataset[2:44]
+head(dataset)
+```
+  
+  Get index vector of churn customers
+```{r}
+dataset$churn = factor(dataset$churn, levels = c(0, 1))
+set.seed(123)
+library(caTools)
+churn_vector = dataset[43]
+vec = churn_vector[['churn']]
+remove(churn_vector)
+idx = which(vec %in% 1)
+idx0 = which(vec %in% 0)
+```
+
+  Split data to churn and non churn dataframes
+```{r}
+dataset_churn = dataset[idx,]
+dataset_nonchurn = dataset[idx0,]
+```
+
+  Because the data set is too unbalanced so
+  we take a number of records corresponding churn customers
+  then mix with a set of non-churn dataframe to
+  create data train set.
+  The rest of data we use for testing.
+  Another method that we used to deal with this unbalancement is
+  creating more data of churn group by the cosine similarity but we dont
+  have enough time to deploy them in this notebook although created it.
+```{r}
+split = sample.split(dataset_churn$churn, SplitRatio = 0.9)
+train_churn = subset(dataset_churn, split == TRUE)
+test_churn = subset(dataset_churn, split == FALSE)
+split = sample.split(dataset_nonchurn$churn, SplitRatio = 0.1)
+train_nonchurn = subset(dataset_nonchurn, split == TRUE)
+test_nonchurn = subset(dataset_nonchurn, split == FALSE)
+
+data_train = rbind(train_nonchurn, train_churn)
+data_test = rbind(test_nonchurn, test_churn)
+remove(train_nonchurn, test_nonchurn, train_churn, test_churn,
+       dataset_churn, dataset_nonchurn)
+```
+
+  Right here one way we usually to do is scaling feature the data set.
+  But i already tested it and it's time cost was too much so i dont use that here
+  The model we use is random forest classification.
+```{r}
+library(randomForest)
+start_time <- Sys.time()
+fforest = randomForest(formula = churn ~.,
+                       data = data_train,
+                       max_depth = 15,
+                       numboots = 50)
+save(fforest, file='fforest.Rdata')
+fforest <- get(load(file='fforest_v1.Rdata'))
+end_time <- Sys.time()
+end_time - start_time
+```
+  
+
+  
+  Predicting and result of the Test set results
+```{r}
+y_pred = predict(fforest, newdata = data_test[-43])
+library(MLmetrics)
+cm = table(data_test[, 43], y_pred)
+                                                                                                      
+precision = (cm[2, 2] / (cm[2, 2] + cm[2, 1]))
+recall = (cm[2, 2] / (cm[2, 2] + cm[1, 2]))
+f1 = 1 / (1 / precision + 1 / recall)
+print(cm)
+print(precision)
+print(recall)
+print(f1)
+```
+
+Test Pro
+```{r}
+
+```
+
+
+```{r}
+

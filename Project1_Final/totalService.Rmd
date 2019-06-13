@@ -1,0 +1,74 @@
+---
+output:
+  word_document: 
+  pdf_document: default
+  html_document: default
+---
+```{r}
+library(dplyr)
+totalService = read.csv("total.csv")
+```
+
+```{r}
+churn <- c(mean(totalService[totalService$churn==1,]$sum_total_use_charge_tn_5),
+           mean(totalService[totalService$churn==1,]$sum_total_use_charge_tn_4),
+           mean(totalService[totalService$churn==1,]$sum_total_use_charge_tn_3),
+           mean(totalService[totalService$churn==1,]$sum_total_use_charge_tn_2),
+           mean(totalService[totalService$churn==1,]$sum_total_use_charge_tn_1),
+           mean(totalService[totalService$churn==1,]$sum_total_use_charge_tn))
+non_churn <- c(mean(totalService[totalService$churn==0,]$sum_total_use_charge_tn_5),
+           mean(totalService[totalService$churn==0,]$sum_total_use_charge_tn_4),
+           mean(totalService[totalService$churn==0,]$sum_total_use_charge_tn_3),
+           mean(totalService[totalService$churn==0,]$sum_total_use_charge_tn_2),
+           mean(totalService[totalService$churn==0,]$sum_total_use_charge_tn_1),
+           mean(totalService[totalService$churn==0,]$sum_total_use_charge_tn))
+months = c("n-5", "n-4", "n-3", "n-2", "n-1", "n")
+data = data.frame(months, churn, non_churn)
+mydf = t(data[-1])
+colnames(mydf) <- data[, 1]
+barplot(mydf, beside = TRUE, main = "Sum charge used service total", col=c('darkblue', 'red'))
+legend("bottomright", legend = c('churn', "non churn"), fill=c('darkblue', 'red'))
+```
+```{r}
+churn <- c(mean(totalService[totalService$churn==1,]$sum_total_A.s_tn_5),
+           mean(totalService[totalService$churn==1,]$sum_total_A.s_tn_4),
+           mean(totalService[totalService$churn==1,]$sum_total_A.s_tn_3),
+           mean(totalService[totalService$churn==1,]$sum_total_A.s_tn_2),
+           mean(totalService[totalService$churn==1,]$sum_total_A.s_tn_1),
+           mean(totalService[totalService$churn==1,]$sum_total_A.s_tn))
+non_churn <- c(mean(totalService[totalService$churn==0,]$sum_total_A.s_tn_5),
+           mean(totalService[totalService$churn==0,]$sum_total_A.s_tn_4),
+           mean(totalService[totalService$churn==0,]$sum_total_A.s_tn_3),
+           mean(totalService[totalService$churn==0,]$sum_total_A.s_tn_2),
+           mean(totalService[totalService$churn==0,]$sum_total_A.s_tn_1),
+           mean(totalService[totalService$churn==0,]$sum_total_A.s_tn))
+months = c("n-5", "n-4", "n-3", "n-2", "n-1", "n")
+data = data.frame(months, churn, non_churn)
+mydf = t(data[-1])
+colnames(mydf) <- data[, 1]
+barplot(mydf, beside = TRUE, main = "Sum  used service total", col=c('darkblue', 'red'))
+legend("bottomright", legend = c('churn', "non churn"), fill=c('darkblue', 'red'))
+```
+
+```{r}
+churn <- c(mean(totalService[totalService$churn==1,]$sum_free_service_fee_tn_5),
+           mean(totalService[totalService$churn==1,]$sum_free_service_fee_tn_4),
+           mean(totalService[totalService$churn==1,]$sum_free_service_fee_tn_3),
+           mean(totalService[totalService$churn==1,]$sum_free_service_fee_tn_2),
+           mean(totalService[totalService$churn==1,]$sum_free_service_fee_tn_1),
+           mean(totalService[totalService$churn==1,]$sum_free_service_fee_tn))
+non_churn <- c(mean(totalService[totalService$churn==0,]$sum_free_service_fee_tn_5),
+           mean(totalService[totalService$churn==0,]$sum_free_service_fee_tn_4),
+           mean(totalService[totalService$churn==0,]$sum_free_service_fee_tn_3),
+           mean(totalService[totalService$churn==0,]$sum_free_service_fee_tn_2),
+           mean(totalService[totalService$churn==0,]$sum_free_service_fee_tn_1),
+           mean(totalService[totalService$churn==0,]$sum_free_service_fee_tn))
+months = c("n-5", "n-4", "n-3", "n-2", "n-1", "n")
+data = data.frame(months, churn, non_churn)
+mydf = t(data[-1])
+colnames(mydf) <- data[, 1]
+barplot(mydf, beside = TRUE, main = "Sum  free service total", col=c('darkblue', 'red'))
+legend("bottomright", legend = c('churn', "non churn"), fill=c('darkblue', 'red'))
+```
+
+
